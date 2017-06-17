@@ -217,6 +217,8 @@ static const uint32_t FT3[256] = { FT };
 
 #undef FT
 
+#if !defined(MBEDTLS_AES_DECRYPT_ALT)
+
 /*
  * Reverse S-box
  */
@@ -343,6 +345,8 @@ static const uint32_t RT3[256] = { RT };
 #undef V
 
 #undef RT
+
+#endif /* MBEDTLS_AES_DECRYPT_ALT */
 
 /*
  * Round constants
@@ -825,35 +829,35 @@ void mbedtls_aes_decrypt( mbedtls_aes_context *ctx,
 /*
  * AES-ECB block encryption/decryption
  */
-int mbedtls_aes_crypt_ecb( mbedtls_aes_context *ctx,
-                    int mode,
-                    const unsigned char input[16],
-                    unsigned char output[16] )
-{
-#if defined(MBEDTLS_AESNI_C) && defined(MBEDTLS_HAVE_X86_64)
-    if( mbedtls_aesni_has_support( MBEDTLS_AESNI_AES ) )
-        return( mbedtls_aesni_crypt_ecb( ctx, mode, input, output ) );
-#endif
-
-#if defined(MBEDTLS_PADLOCK_C) && defined(MBEDTLS_HAVE_X86)
-    if( aes_padlock_ace )
-    {
-        if( mbedtls_padlock_xcryptecb( ctx, mode, input, output ) == 0 )
-            return( 0 );
-
-        // If padlock data misaligned, we just fall back to
-        // unaccelerated mode
-        //
-    }
-#endif
-
-    if( mode == MBEDTLS_AES_ENCRYPT )
-        mbedtls_aes_encrypt( ctx, input, output );
-    else
-        mbedtls_aes_decrypt( ctx, input, output );
-
-    return( 0 );
-}
+// int mbedtls_aes_crypt_ecb( mbedtls_aes_context *ctx,
+//                     int mode,
+//                     const unsigned char input[16],
+//                     unsigned char output[16] )
+// {
+// #if defined(MBEDTLS_AESNI_C) && defined(MBEDTLS_HAVE_X86_64)
+//     if( mbedtls_aesni_has_support( MBEDTLS_AESNI_AES ) )
+//         return( mbedtls_aesni_crypt_ecb( ctx, mode, input, output ) );
+// #endif
+//
+// #if defined(MBEDTLS_PADLOCK_C) && defined(MBEDTLS_HAVE_X86)
+//     if( aes_padlock_ace )
+//     {
+//         if( mbedtls_padlock_xcryptecb( ctx, mode, input, output ) == 0 )
+//             return( 0 );
+//
+//         // If padlock data misaligned, we just fall back to
+//         // unaccelerated mode
+//         //
+//     }
+// #endif
+//
+//     if( mode == MBEDTLS_AES_ENCRYPT )
+//         mbedtls_aes_encrypt( ctx, input, output );
+//     else
+//         mbedtls_aes_decrypt( ctx, input, output );
+//
+//     return( 0 );
+// }
 
 #if defined(MBEDTLS_CIPHER_MODE_CBC)
 /*
@@ -1019,7 +1023,7 @@ int mbedtls_aes_crypt_ctr( mbedtls_aes_context *ctx,
     while( length-- )
     {
         if( n == 0 ) {
-            mbedtls_aes_crypt_ecb( ctx, MBEDTLS_AES_ENCRYPT, nonce_counter, stream_block );
+            mbedtls_aes_encrypt( ctx, nonce_counter, stream_block );
 
             for( i = 16; i > 0; i-- )
                 if( ++nonce_counter[i - 1] != 0 )
@@ -1045,6 +1049,7 @@ int mbedtls_aes_crypt_ctr( mbedtls_aes_context *ctx,
  *
  * http://csrc.nist.gov/archive/aes/rijndael/rijndael-vals.zip
  */
+#if !defined(MBEDTLS_AES_DECRYPT_ALT)
 static const unsigned char aes_test_ecb_dec[3][16] =
 {
     { 0x44, 0x41, 0x6A, 0xC2, 0xD1, 0xF5, 0x3C, 0x58,
@@ -1054,6 +1059,7 @@ static const unsigned char aes_test_ecb_dec[3][16] =
     { 0x05, 0x8C, 0xCF, 0xFD, 0xBB, 0xCB, 0x38, 0x2D,
       0x1F, 0x6F, 0x56, 0x58, 0x5D, 0x8A, 0x4A, 0xDE }
 };
+#endif /* MBEDTLS_AES_DECRYPT_ALT */
 
 static const unsigned char aes_test_ecb_enc[3][16] =
 {
@@ -1259,6 +1265,7 @@ int mbedtls_aes_self_test( int verbose )
 
         if( v == MBEDTLS_AES_DECRYPT )
         {
+#if !defined(MBEDTLS_AES_SETKEY_DEC_ALT) && !defined(MBEDTLS_AES_DECRYPT_ALT)
             mbedtls_aes_setkey_dec( &ctx, key, 128 + u * 64 );
 
             for( j = 0; j < 10000; j++ )
@@ -1272,13 +1279,16 @@ int mbedtls_aes_self_test( int verbose )
                 ret = 1;
                 goto exit;
             }
+            if( verbose != 0 )
+                mbedtls_printf( "passed\n" );
+#endif
         }
         else
         {
             mbedtls_aes_setkey_enc( &ctx, key, 128 + u * 64 );
 
             for( j = 0; j < 10000; j++ )
-                mbedtls_aes_crypt_ecb( &ctx, v, buf, buf );
+                mbedtls_aes_encrypt( &ctx, buf, buf );
 
             if( memcmp( buf, aes_test_ecb_enc[u], 16 ) != 0 )
             {
@@ -1288,10 +1298,9 @@ int mbedtls_aes_self_test( int verbose )
                 ret = 1;
                 goto exit;
             }
+            if( verbose != 0 )
+                mbedtls_printf( "passed\n" );
         }
-
-        if( verbose != 0 )
-            mbedtls_printf( "passed\n" );
     }
 
     if( verbose != 0 )
@@ -1353,10 +1362,9 @@ int mbedtls_aes_self_test( int verbose )
                 ret = 1;
                 goto exit;
             }
+            if( verbose != 0 )
+                mbedtls_printf( "passed\n" );
         }
-
-        if( verbose != 0 )
-            mbedtls_printf( "passed\n" );
     }
 
     if( verbose != 0 )
