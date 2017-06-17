@@ -9,6 +9,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 # User configuration
+option(GPROF "Enable gprof profiling" 0)
 option(MBEDTLS_SELF_TEST "Compile mbed TLS self tests" 1)
 option(STACK_PROTECTOR "Enable stack smashing detection" 0)
 # End of user configuration
@@ -28,4 +29,8 @@ endif()
 include_directories("include")
 if(MBEDTLS_SELF_TEST)
     add_executable(run_test src/aes.c src/run_test.c)
+    if(GPROF)
+        target_compile_options(run_test PRIVATE -pg -g -fno-omit-frame-pointer)
+        target_link_libraries(run_test -pg -g -fno-omit-frame-pointer)
+    endif()
 endif()
