@@ -3,8 +3,16 @@ project(AES-FPGA)
 set (AES-FPGA_VERSION_MAJOR 1)
 set (AES-FPGA_VERSION_MINOR 0)
 
+# User configuration
+set(MBEDTLS_SELF_TEST 1 CACHE BOOL "Compile mbed TLS self tests")
+# End of user configuration
+
 if(CMAKE_COMPILER_IS_GNUCC)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra")
+endif()
+
+if(MBEDTLS_SELF_TEST)
+    add_definitions(-DMBEDTLS_SELF_TEST)
 endif()
 
 include_directories("include")
