@@ -487,8 +487,8 @@ void mbedtls_aes_free( mbedtls_aes_context *ctx )
  * AES key schedule (encryption)
  */
 #if !defined(MBEDTLS_AES_SETKEY_ENC_ALT)
-int mbedtls_aes_setkey_enc( mbedtls_aes_context *ctx, const unsigned char *key,
-                    unsigned int keybits )
+void mbedtls_aes_setkey_enc( mbedtls_aes_context *ctx, const unsigned char *key /*,
+                    unsigned int keybits */ )
 {
     unsigned int i;
     uint32_t *RK;
@@ -502,13 +502,13 @@ int mbedtls_aes_setkey_enc( mbedtls_aes_context *ctx, const unsigned char *key,
     }
 #endif
 
-    switch( keybits )
-    {
-        case 128: ctx->nr = 10; break;
-        case 192: ctx->nr = 12; break;
-        case 256: ctx->nr = 14; break;
-        default : return( MBEDTLS_ERR_AES_INVALID_KEY_LENGTH );
-    }
+    // switch( keybits )
+    // {
+    //     case 128: ctx->nr = 10; break;
+    //     case 192: ctx->nr = 12; break;
+    //     case 256: ctx->nr = 14; break;
+    //     default : return( MBEDTLS_ERR_AES_INVALID_KEY_LENGTH );
+    // }
 
 #if defined(MBEDTLS_PADLOCK_C) && defined(MBEDTLS_PADLOCK_ALIGN16)
     if( aes_padlock_ace == -1 )
@@ -518,21 +518,21 @@ int mbedtls_aes_setkey_enc( mbedtls_aes_context *ctx, const unsigned char *key,
         ctx->rk = RK = MBEDTLS_PADLOCK_ALIGN16( ctx->buf );
     else
 #endif
-    ctx->rk = RK = ctx->buf;
+    /* ctx->rk = */ RK = ctx->buf;
 
 #if defined(MBEDTLS_AESNI_C) && defined(MBEDTLS_HAVE_X86_64)
     if( mbedtls_aesni_has_support( MBEDTLS_AESNI_AES ) )
         return( mbedtls_aesni_setkey_enc( (unsigned char *) ctx->rk, key, keybits ) );
 #endif
 
-    for( i = 0; i < ( keybits >> 5 ); i++ )
+    for( i = 0; i < ( 128 /* keybits */ >> 5 ); i++ )
     {
         GET_UINT32_LE( RK[i], key, i << 2 );
     }
 
-    switch( ctx->nr )
-    {
-        case 10:
+    // switch( ctx->nr )
+    // {
+    //     case 10:
 
             for( i = 0; i < 10; i++, RK += 4 )
             {
@@ -546,54 +546,54 @@ int mbedtls_aes_setkey_enc( mbedtls_aes_context *ctx, const unsigned char *key,
                 RK[6]  = RK[2] ^ RK[5];
                 RK[7]  = RK[3] ^ RK[6];
             }
-            break;
+        //     break;
 
-        case 12:
-
-            for( i = 0; i < 8; i++, RK += 6 )
-            {
-                RK[6]  = RK[0] ^ RCON[i] ^
-                ( (uint32_t) FSb[ ( RK[5] >>  8 ) & 0xFF ]       ) ^
-                ( (uint32_t) FSb[ ( RK[5] >> 16 ) & 0xFF ] <<  8 ) ^
-                ( (uint32_t) FSb[ ( RK[5] >> 24 ) & 0xFF ] << 16 ) ^
-                ( (uint32_t) FSb[ ( RK[5]       ) & 0xFF ] << 24 );
-
-                RK[7]  = RK[1] ^ RK[6];
-                RK[8]  = RK[2] ^ RK[7];
-                RK[9]  = RK[3] ^ RK[8];
-                RK[10] = RK[4] ^ RK[9];
-                RK[11] = RK[5] ^ RK[10];
-            }
-            break;
-
-        case 14:
-
-            for( i = 0; i < 7; i++, RK += 8 )
-            {
-                RK[8]  = RK[0] ^ RCON[i] ^
-                ( (uint32_t) FSb[ ( RK[7] >>  8 ) & 0xFF ]       ) ^
-                ( (uint32_t) FSb[ ( RK[7] >> 16 ) & 0xFF ] <<  8 ) ^
-                ( (uint32_t) FSb[ ( RK[7] >> 24 ) & 0xFF ] << 16 ) ^
-                ( (uint32_t) FSb[ ( RK[7]       ) & 0xFF ] << 24 );
-
-                RK[9]  = RK[1] ^ RK[8];
-                RK[10] = RK[2] ^ RK[9];
-                RK[11] = RK[3] ^ RK[10];
-
-                RK[12] = RK[4] ^
-                ( (uint32_t) FSb[ ( RK[11]       ) & 0xFF ]       ) ^
-                ( (uint32_t) FSb[ ( RK[11] >>  8 ) & 0xFF ] <<  8 ) ^
-                ( (uint32_t) FSb[ ( RK[11] >> 16 ) & 0xFF ] << 16 ) ^
-                ( (uint32_t) FSb[ ( RK[11] >> 24 ) & 0xFF ] << 24 );
-
-                RK[13] = RK[5] ^ RK[12];
-                RK[14] = RK[6] ^ RK[13];
-                RK[15] = RK[7] ^ RK[14];
-            }
-            break;
-    }
-
-    return( 0 );
+        // case 12:
+        //
+        //     for( i = 0; i < 8; i++, RK += 6 )
+        //     {
+        //         RK[6]  = RK[0] ^ RCON[i] ^
+        //         ( (uint32_t) FSb[ ( RK[5] >>  8 ) & 0xFF ]       ) ^
+        //         ( (uint32_t) FSb[ ( RK[5] >> 16 ) & 0xFF ] <<  8 ) ^
+        //         ( (uint32_t) FSb[ ( RK[5] >> 24 ) & 0xFF ] << 16 ) ^
+        //         ( (uint32_t) FSb[ ( RK[5]       ) & 0xFF ] << 24 );
+        //
+        //         RK[7]  = RK[1] ^ RK[6];
+        //         RK[8]  = RK[2] ^ RK[7];
+        //         RK[9]  = RK[3] ^ RK[8];
+        //         RK[10] = RK[4] ^ RK[9];
+        //         RK[11] = RK[5] ^ RK[10];
+        //     }
+        //     break;
+        //
+        // case 14:
+        //
+        //     for( i = 0; i < 7; i++, RK += 8 )
+        //     {
+        //         RK[8]  = RK[0] ^ RCON[i] ^
+        //         ( (uint32_t) FSb[ ( RK[7] >>  8 ) & 0xFF ]       ) ^
+        //         ( (uint32_t) FSb[ ( RK[7] >> 16 ) & 0xFF ] <<  8 ) ^
+        //         ( (uint32_t) FSb[ ( RK[7] >> 24 ) & 0xFF ] << 16 ) ^
+        //         ( (uint32_t) FSb[ ( RK[7]       ) & 0xFF ] << 24 );
+        //
+        //         RK[9]  = RK[1] ^ RK[8];
+        //         RK[10] = RK[2] ^ RK[9];
+        //         RK[11] = RK[3] ^ RK[10];
+        //
+        //         RK[12] = RK[4] ^
+        //         ( (uint32_t) FSb[ ( RK[11]       ) & 0xFF ]       ) ^
+        //         ( (uint32_t) FSb[ ( RK[11] >>  8 ) & 0xFF ] <<  8 ) ^
+        //         ( (uint32_t) FSb[ ( RK[11] >> 16 ) & 0xFF ] << 16 ) ^
+        //         ( (uint32_t) FSb[ ( RK[11] >> 24 ) & 0xFF ] << 24 );
+        //
+        //         RK[13] = RK[5] ^ RK[12];
+        //         RK[14] = RK[6] ^ RK[13];
+        //         RK[15] = RK[7] ^ RK[14];
+        //     }
+        //     break;
+        // }
+        //
+        // return( 0 );
 }
 #endif /* !MBEDTLS_AES_SETKEY_ENC_ALT */
 
@@ -723,14 +723,14 @@ void mbedtls_aes_encrypt( mbedtls_aes_context *ctx,
     int i;
     uint32_t *RK, X0, X1, X2, X3, Y0, Y1, Y2, Y3;
 
-    RK = ctx->rk;
+    RK = ctx->buf; /* ctx->rk; */
 
     GET_UINT32_LE( X0, input,  0 ); X0 ^= *RK++;
     GET_UINT32_LE( X1, input,  4 ); X1 ^= *RK++;
     GET_UINT32_LE( X2, input,  8 ); X2 ^= *RK++;
     GET_UINT32_LE( X3, input, 12 ); X3 ^= *RK++;
 
-    for( i = ( ctx->nr >> 1 ) - 1; i > 0; i-- )
+    for( i = ( 10 /* ctx->nr */ >> 1 ) - 1; i > 0; i-- )
     {
         AES_FROUND( Y0, Y1, Y2, Y3, X0, X1, X2, X3 );
         AES_FROUND( X0, X1, X2, X3, Y0, Y1, Y2, Y3 );
@@ -1252,7 +1252,7 @@ int mbedtls_aes_self_test( int verbose )
     /*
      * ECB mode
      */
-    for( i = 0; i < 6; i++ )
+    for( i = 0; i < 2; i++ )
     {
         u = i >> 1;
         v = i  & 1;
@@ -1285,7 +1285,7 @@ int mbedtls_aes_self_test( int verbose )
         }
         else
         {
-            mbedtls_aes_setkey_enc( &ctx, key, 128 + u * 64 );
+            mbedtls_aes_setkey_enc( &ctx, key /*, 128 + u * 64 */ );
 
             for( j = 0; j < 10000; j++ )
                 mbedtls_aes_encrypt( &ctx, buf, buf );
@@ -1444,7 +1444,7 @@ int mbedtls_aes_self_test( int verbose )
         memcpy( key, aes_test_ctr_key[u], 16 );
 
         offset = 0;
-        mbedtls_aes_setkey_enc( &ctx, key, 128 );
+        mbedtls_aes_setkey_enc( &ctx, key /*, 128 */ );
 
         if( v == MBEDTLS_AES_DECRYPT )
         {

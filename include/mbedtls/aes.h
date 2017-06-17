@@ -59,9 +59,10 @@ extern "C" {
  */
 typedef struct
 {
-    int nr;                     /*!<  number of rounds  */
-    uint32_t *rk;               /*!<  AES round keys    */
-    uint32_t buf[68];           /*!<  unaligned data    */
+    // int nr;                     /*!<  number of rounds  */
+    // uint32_t *rk;               /*!<  AES round keys    */
+    // uint32_t buf[68];           /*!<  unaligned data    */
+    uint32_t buf[44];           /*!<  unaligned data    */
 }
 mbedtls_aes_context;
 
@@ -88,8 +89,10 @@ void mbedtls_aes_free( mbedtls_aes_context *ctx );
  *
  * \return         0 if successful, or MBEDTLS_ERR_AES_INVALID_KEY_LENGTH
  */
-int mbedtls_aes_setkey_enc( mbedtls_aes_context *ctx, const unsigned char *key,
-                    unsigned int keybits );
+// int mbedtls_aes_setkey_enc( mbedtls_aes_context *ctx, const unsigned char *key,
+//                     unsigned int keybits );
+void mbedtls_aes_setkey_enc( mbedtls_aes_context *ctx, const unsigned char *key /*,
+                    unsigned int keybits */ );
 
 /**
  * \brief          AES key schedule (decryption)
