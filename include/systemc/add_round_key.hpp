@@ -1,5 +1,7 @@
 #include <systemc>
 
+#include "mbedtls/aes.h"
+
 SC_MODULE(AddRoundKey)
 {
   sc_core::sc_in<int> a, b;
@@ -7,6 +9,7 @@ SC_MODULE(AddRoundKey)
 
   void do_add()
   {
+    mbedtls_aes_self_test(0);
     sum.write(a.read() + b.read());
   }
 
