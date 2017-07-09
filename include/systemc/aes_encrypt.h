@@ -3,7 +3,12 @@
 #include "aes_fsb.h"
 
 enum aes_enc_state {
-  aes_enc_st_wait, aes_enc_st_read, aes_enc_st_addroundkey, aes_enc_st_round_odd, aes_enc_st_round_even, aes_enc_st_round_last, aes_enc_st_subbytes, aes_enc_st_end
+  aes_enc_st_wait, aes_enc_st_read, aes_enc_st_addroundkey,
+    aes_enc_st_round_odd_in, aes_enc_st_round_odd_out,
+    aes_enc_st_round_even_in, aes_enc_st_round_even_out,
+    aes_enc_st_round_last_in, aes_enc_st_round_last_out,
+    aes_enc_st_subbytes_in, aes_enc_st_subbytes_out,
+  aes_enc_st_end
 };
 
 SC_MODULE(AES_Encrypt)

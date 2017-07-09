@@ -35,6 +35,13 @@ void AES_CTR::get_next_state()
 		case aes_ctr_st_nc_inc:
 			snext = aes_ctr_st_end;
 			break;
+		case aes_ctr_st_end_wait:
+			if (start) {
+				snext = aes_ctr_st_end_wait; // Wait until start is released
+			} else {
+				snext = aes_ctr_st_end;
+			}
+			break;
 		case aes_ctr_st_end:
 			if (start) {
 				snext = aes_ctr_st_enc_start; // No need to recalculate round keys
@@ -74,6 +81,9 @@ void AES_CTR::set_state()
             }
             inc_nc = 1;
             break;
+		case aes_ctr_st_end_wait:
+	        done = 1;
+	        break;
 		case aes_ctr_st_end:
             done = 1;
             break;
