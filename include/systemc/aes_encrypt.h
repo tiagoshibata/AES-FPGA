@@ -2,11 +2,11 @@
 #include "aes_fround.h"
 #include "aes_fsb.h"
 
-enum aes_state {
-  st_wait, st_read, st_addroundkey, st_round_odd, st_round_even, st_round_last, st_subbytes, st_end
+enum aes_enc_state {
+  aes_enc_st_wait, aes_enc_st_read, aes_enc_st_addroundkey, aes_enc_st_round_odd, aes_enc_st_round_even, aes_enc_st_round_last, aes_enc_st_subbytes, aes_enc_st_end
 };
 
-SC_MODULE(AES_encrypt)
+SC_MODULE(AES_Encrypt)
 {
   sc_core::sc_in<bool> clock, start, clear;
   sc_core::sc_in<uint32_t> rk0, rk1, rk2, rk3;
@@ -16,8 +16,8 @@ SC_MODULE(AES_encrypt)
   sc_core::sc_out<bool> done;
 
   // State logic
-  sc_core::sc_signal<aes_state> sreg;
-  sc_core::sc_signal<aes_state> snext;
+  sc_core::sc_signal<aes_enc_state> sreg;
+  sc_core::sc_signal<aes_enc_state> snext;
 
   // Internal values
   sc_core::sc_signal<uint32_t> x0, x1, x2, x3, y0, y1, y2, y3;
@@ -32,7 +32,7 @@ SC_MODULE(AES_encrypt)
   void get_next_state();
   void set_state();
 
-  SC_CTOR(AES_encrypt)
+  SC_CTOR(AES_Encrypt)
   {
     round = 0;
 

@@ -1,7 +1,7 @@
 #include <systemc>
 
-enum aes_state {
-  st_wait, st_load, st_generate, st_end
+enum aes_rk_state {
+  aes_rk_st_wait, aes_rk_st_read, aes_rk_st_generate, aes_rk_st_end
 };
 
 SC_MODULE(AES_RoundKey)
@@ -13,8 +13,8 @@ SC_MODULE(AES_RoundKey)
   sc_core::sc_out<bool> done;
 
   // State logic
-  sc_core::sc_signal<aes_state> sreg;
-  sc_core::sc_signal<aes_state> snext;
+  sc_core::sc_signal<aes_rk_state> sreg;
+  sc_core::sc_signal<aes_rk_state> snext;
 
   // Internal values
   sc_core::sc_signal<uint32_t> rk[44];

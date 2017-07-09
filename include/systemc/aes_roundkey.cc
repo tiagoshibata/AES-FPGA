@@ -54,27 +54,27 @@ static const uint32_t FSb[256] =
 void AES_RoundKey::get_next_state()
 {
 	if (clear) {
-		sreg = st_wait;
+		sreg = aes_rk_st_wait;
 	} else switch (sreg) {
-		case st_wait:
-			if (start.read()) {
-				snext = st_read;
+		case aes_rk_st_wait:
+			if (start) {
+				snext = aes_rk_st_read;
 			} else {
-				snext = st_wait;
+				snext = aes_rk_st_wait;
 			}
 			break;
-		case st_load:
-			snext = st_generate;
+		case aes_rk_st_read:
+			snext = aes_rk_st_generate;
 			break;
-		case st_generate:
+		case aes_rk_st_generate:
             if (round < 10) {
-                snext = st_generate;
+                snext = aes_rk_st_generate;
             } else {
-			    snext = st_end;
+			    snext = aes_rk_st_end;
             }
 			break;
-		case st_end:
-			snext = st_wait;
+		case aes_rk_st_end:
+			snext = aes_rk_st_wait;
 			break;
 	}
 }
@@ -84,18 +84,18 @@ void AES_RoundKey::set_state()
 	sreg = snext;
 
 	switch (sreg) {
-		case st_wait:
+		case aes_rk_st_wait:
             round = 0;
 			done = 0;
 			break;
-		case st_load:
+		case aes_rk_st_read:
 			round = 0;
 			GET_UINT32_LE(rk[0], key, 0);
 			GET_UINT32_LE(rk[1], key, 4);
 			GET_UINT32_LE(rk[2], key, 8);
 			GET_UINT32_LE(rk[3], key, 12);
 			break;
-		case st_generate:
+		case aes_rk_st_generate:
 			rk[4 + (round << 2)]  = rk[0 + (round << 2)] ^ RCON[round] ^
 			( (uint32_t) FSb[ ( rk[3 + (round << 2)] >>  8 ) & 0xFF ]       ) ^
 			( (uint32_t) FSb[ ( rk[3 + (round << 2)] >> 16 ) & 0xFF ] <<  8 ) ^
@@ -106,7 +106,7 @@ void AES_RoundKey::set_state()
 			rk[7 + (round << 2)]  = rk[3 + (round << 2)] ^ rk[6 + (round << 2)];
 			round++;
 			break;
-		case st_end:
+		case aes_rk_st_end:
 		    done = 1;
 		    break;
 	}
