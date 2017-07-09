@@ -45,6 +45,7 @@ void AES_CTR::set_state()
 	switch (sreg) {
 		case aes_ctr_st_wait:
             done = 0;
+            inc_nc = 0;
             start_rk = 0;
             start_enc = 0;
             break;
@@ -65,6 +66,7 @@ void AES_CTR::set_state()
                 output[i] = input[i] ^ cipher[i];
             }
             done = 1;
+            inc_nc = 1;
             break;
 	}
 }

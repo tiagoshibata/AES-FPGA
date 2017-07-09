@@ -1,6 +1,7 @@
 #include <systemc>
 #include "aes_roundkey.h"
 #include "aes_encrypt.h"
+#include "aes_nonce_counter.h"
 
 enum aes_ctr_state {
   aes_ctr_st_wait, aes_ctr_st_read, aes_ctr_st_rk_start, aes_ctr_st_rk_wait, aes_ctr_st_enc_start, aes_ctr_st_enc_wait, aes_ctr_st_end
@@ -12,7 +13,7 @@ SC_MODULE(AES_CTR)
   // Input:
   // - Encryption: plaintext
   // - Decryption: ciphertext
-  // Nonce Counter should be incremented by 1 outside of this module
+  // Nonce Counter will be incremented by 1 inside this module for each encryption
   sc_core::sc_in<unsigned char> input[16], nonce_counter[16], key[16];
   sc_core::sc_out<unsigned char> output[16];
   sc_core::sc_out<bool> done;
@@ -23,13 +24,15 @@ SC_MODULE(AES_CTR)
 
   // Internal values
   sc_core::sc_signal<uint32_t> rk0, rk1, rk2, rk3, rk_addr;
-  sc_core::sc_signal<unsigned char> cipher[16];
+  sc_core::sc_signal<unsigned char> cipher[16], curr_nc[16];
 
   // Modules
   AES_RoundKey *roundkey;
-  sc_core::sc_signal<uint32_t> start_rk, done_rk;
+  sc_core::sc_signal<bool> start_rk, done_rk;
   AES_Encrypt *aes_encrypt;
-  sc_core::sc_signal<uint32_t> start_enc, done_enc;
+  sc_core::sc_signal<bool> start_enc, done_enc;
+  AES_Nonce_Counter *nonce_ctr;
+  sc_core::sc_signal<bool> inc_nc;
 
   void get_next_state();
   void set_state();
@@ -44,7 +47,11 @@ SC_MODULE(AES_CTR)
     aes_encrypt = new AES_Encrypt("encrypt");
     aes_encrypt->rk0(rk0); aes_encrypt->rk1(rk1); aes_encrypt->rk2(rk2); aes_encrypt->rk3(rk3); aes_encrypt->rk_addr(rk_addr);
     aes_encrypt->clock(clock); aes_encrypt->start(start_enc); aes_encrypt->clear(clear); aes_encrypt->done(done_enc);
-    aes_encrypt->input(nonce_counter); aes_encrypt->output(cipher);
+    aes_encrypt->input(curr_nc); aes_encrypt->output(cipher);
+
+    nonce_ctr = new AES_Nonce_Counter("nonce_ctr");
+    nonce_ctr->clear(clear); nonce_ctr->increment(inc_nc);
+    nonce_ctr->original_nc(nonce_counter); nonce_ctr->current_nc(curr_nc);
 
     SC_METHOD(get_next_state);
       sensitive << sreg << start << clear << done_rk << done_enc;
