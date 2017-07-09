@@ -10,8 +10,8 @@ SC_MODULE(AES_encrypt)
 {
   sc_core::sc_in<bool> clock, start, clear;
   sc_core::sc_in<uint32_t> rk0, rk1, rk2, rk3;
-  sc_core::sc_in<unsigned char[16]> input;
-  sc_core::sc_out<unsigned char[16]> output;
+  sc_core::sc_in<unsigned char> input[16];
+  sc_core::sc_out<unsigned char> output[16];
   sc_core::sc_out<uint32_t> rk_addr;
   sc_core::sc_out<bool> done;
 

@@ -19,8 +19,7 @@ void AES_encrypt::get_next_state()
 {
 	if (clear) {
 		sreg = st_wait;
-	}
-	switch (sreg) {
+	} else switch (sreg) {
 		case st_wait:
 			if (start.read()) {
 				snext = st_read;
