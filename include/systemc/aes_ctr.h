@@ -50,7 +50,7 @@ SC_MODULE(AES_CTR)
     aes_encrypt->input(curr_nc); aes_encrypt->output(cipher);
 
     nonce_ctr = new AES_Nonce_Counter("nonce_ctr");
-    nonce_ctr->clear(clear); nonce_ctr->increment(inc_nc);
+    nonce_ctr->clock(clock); nonce_ctr->clear(clear); nonce_ctr->increment(inc_nc);
     nonce_ctr->original_nc(nonce_counter); nonce_ctr->current_nc(curr_nc);
 
     SC_METHOD(get_next_state);
