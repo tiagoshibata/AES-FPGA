@@ -43,27 +43,25 @@ SC_MODULE(AES_FSb)
 
   void do_fsb()
   {
-    x0.write((rk_in.read() + 0) ^ ( FSb[ ( y0.read()       ) & 0xFF ]       ) ^
-                                  ( FSb[ ( y1.read() >>  8 ) & 0xFF ] << 8  ) ^
-                                  ( FSb[ ( y2.read() >> 16 ) & 0xFF ] << 16 ) ^
-                                  ( FSb[ ( y3.read() >> 24 ) & 0xFF ] << 24 ));
+    x0.write(rk0.read() ^ ( FSb[ ( y0.read()       ) & 0xFF ]       ) ^
+                          ( FSb[ ( y1.read() >>  8 ) & 0xFF ] << 8  ) ^
+                          ( FSb[ ( y2.read() >> 16 ) & 0xFF ] << 16 ) ^
+                          ( FSb[ ( y3.read() >> 24 ) & 0xFF ] << 24 ));
 
-    x1.write((rk_in.read() + 1) ^ ( FSb[ ( y1.read()       ) & 0xFF ]       ) ^
-                                  ( FSb[ ( y2.read() >>  8 ) & 0xFF ] << 8  ) ^
-                                  ( FSb[ ( y3.read() >> 16 ) & 0xFF ] << 16 ) ^
-                                  ( FSb[ ( y0.read() >> 24 ) & 0xFF ] << 24 ));
+    x1.write(rk1.read() ^ ( FSb[ ( y1.read()       ) & 0xFF ]       ) ^
+                          ( FSb[ ( y2.read() >>  8 ) & 0xFF ] << 8  ) ^
+                          ( FSb[ ( y3.read() >> 16 ) & 0xFF ] << 16 ) ^
+                          ( FSb[ ( y0.read() >> 24 ) & 0xFF ] << 24 ));
 
-    x2.write((rk_in.read() + 2) ^ ( FSb[ ( y2.read()       ) & 0xFF ]       ) ^
-                                  ( FSb[ ( y3.read() >>  8 ) & 0xFF ] << 8  ) ^
-                                  ( FSb[ ( y0.read() >> 16 ) & 0xFF ] << 16 ) ^
-                                  ( FSb[ ( y1.read() >> 24 ) & 0xFF ] << 24 ));
+    x2.write(rk2.read() ^ ( FSb[ ( y2.read()       ) & 0xFF ]       ) ^
+                          ( FSb[ ( y3.read() >>  8 ) & 0xFF ] << 8  ) ^
+                          ( FSb[ ( y0.read() >> 16 ) & 0xFF ] << 16 ) ^
+                          ( FSb[ ( y1.read() >> 24 ) & 0xFF ] << 24 ));
 
-    x3.write((rk_in.read() + 3) ^ ( FSb[ ( y3.read()       ) & 0xFF ]       ) ^
-                                  ( FSb[ ( y0.read() >>  8 ) & 0xFF ] << 8  ) ^
-                                  ( FSb[ ( y1.read() >> 16 ) & 0xFF ] << 16 ) ^
-                                  ( FSb[ ( y2.read() >> 24 ) & 0xFF ] << 24 ));
-
-    rk_out.write(rk_in.read() + 4);
+    x3.write(rk3.read() ^ ( FSb[ ( y3.read()       ) & 0xFF ]       ) ^
+                          ( FSb[ ( y0.read() >>  8 ) & 0xFF ] << 8  ) ^
+                          ( FSb[ ( y1.read() >> 16 ) & 0xFF ] << 16 ) ^
+                          ( FSb[ ( y2.read() >> 24 ) & 0xFF ] << 24 ));
   }
 
   SC_CTOR(AES_FSb)
