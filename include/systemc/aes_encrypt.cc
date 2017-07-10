@@ -45,7 +45,7 @@ void AES_Encrypt::get_next_state()
             snext = aes_enc_st_round_even_out;
     		break;
 		case aes_enc_st_round_even_out:
-			if (round > 0) {
+			if (aes_round > 0) {
 				snext = aes_enc_st_round_odd_in;
 			} else {
 				snext = aes_enc_st_round_last_in;
@@ -79,11 +79,11 @@ void AES_Encrypt::set_state()
 	switch (sreg) {
 		case aes_enc_st_wait:
 			done = 0;
-            round = 0;
+            aes_round = 0;
 			rk_addr = 0;
 			break;
 		case aes_enc_st_read:
-			round = (10 >> 1) - 1;
+			aes_round = (10 >> 1) - 1;
 			GET_UINT32_LE(x0, input, 0);
 			GET_UINT32_LE(x1, input, 4);
 			GET_UINT32_LE(x2, input, 8);
@@ -94,7 +94,7 @@ void AES_Encrypt::set_state()
 			x1 = x1 ^ rk1;
 			x2 = x2 ^ rk2;
 			x3 = x3 ^ rk3;
-			rk_addr += 4;
+			rk_addr = rk_addr + 4;
 			break;
 
         //AES_FROUND( y0, y1, y2, y3, x0, x1, x2, x3 );
@@ -105,7 +105,7 @@ void AES_Encrypt::set_state()
         case aes_enc_st_round_odd_out:
     	case aes_enc_st_round_last_out:
     		y0 = froundout0; y1 = froundout1; y2 = froundout2; y3 = froundout3;
-    		rk_addr += 4;
+                rk_addr = rk_addr + 4;
     		break;
 
         //AES_FROUND( x0, x1, x2, x3, y0, y1, y2, y3 );
@@ -114,8 +114,8 @@ void AES_Encrypt::set_state()
 			break;
         case aes_enc_st_round_even_out:
     		x0 = froundout0; x1 = froundout1; x2 = froundout2; x3 = froundout3;
-    		rk_addr += 4;
-    		round--;
+                rk_addr = rk_addr + 4;
+    		aes_round--;
     		break;
 
         //AES_FSb( x0, x1, x2, x3, y0, y1, y2, y3 );
@@ -124,7 +124,7 @@ void AES_Encrypt::set_state()
 			break;
         case aes_enc_st_subbytes_out:
             x0 = fsbout0; x1 = fsbout1; x2 = fsbout2; x3 = fsbout3;
-            rk_addr += 4;
+            rk_addr = rk_addr + 4;
             break;
 
 		case aes_enc_st_end:

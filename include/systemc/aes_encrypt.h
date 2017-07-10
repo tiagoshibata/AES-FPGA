@@ -26,7 +26,7 @@ SC_MODULE(AES_Encrypt)
 
   // Internal values
   sc_core::sc_signal<uint32_t> x0, x1, x2, x3, y0, y1, y2, y3;
-  int round;
+  int aes_round;
 
   // Modules
   AES_FROUND *fround;
@@ -39,7 +39,7 @@ SC_MODULE(AES_Encrypt)
 
   SC_CTOR(AES_Encrypt)
   {
-    round = 0;
+    aes_round = 0;
 
     fround = new AES_FROUND("fround");
     fround->y0(froundin0); fround->y1(froundin1); fround->y2(froundin2); fround->y3(froundin3);
@@ -52,7 +52,7 @@ SC_MODULE(AES_Encrypt)
     fsb->x0(fsbout0); fsb->x1(fsbout1); fsb->x2(fsbout2); fsb->x3(fsbout3);
 
     SC_METHOD(get_next_state);
-      sensitive << sreg << start << clear << round;
+      sensitive << sreg << start << clear;
 	SC_METHOD(set_state);
       sensitive << clock.pos();
   }
