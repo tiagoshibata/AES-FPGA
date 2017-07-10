@@ -73,5 +73,6 @@ int sc_main(int argc, char* argv[])
     assert(aes_test_ctr_ct[i] == output[i]);
   }
 
+  std::cout << "Congratulations, it worked.\n";
   return 0;
 }
