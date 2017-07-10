@@ -115,7 +115,7 @@ void AES_Encrypt::set_state()
         case aes_enc_st_round_even_out:
     		x0 = froundout0; x1 = froundout1; x2 = froundout2; x3 = froundout3;
                 rk_addr = rk_addr + 4;
-    		aes_round--;
+    		aes_round = aes_round - 1;
     		break;
 
         //AES_FSb( x0, x1, x2, x3, y0, y1, y2, y3 );
