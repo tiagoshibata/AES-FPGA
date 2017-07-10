@@ -3,6 +3,14 @@
 
 #include "aes_ctr.h"
 
+#define tick() do{  \
+  std::cout << "Running 1 cycle\n";  \
+  sc_core::sc_start(clock_time);  \
+  clock = 1;  \
+  sc_core::sc_start(clock_time);  \
+  clock = 0;  \
+}while(0)
+
 int sc_main(int argc, char* argv[])
 {
   std::cout << "Starting simulation: " << sc_core::sc_time_stamp() << "\n";
@@ -25,9 +33,13 @@ int sc_main(int argc, char* argv[])
   ctr.output(output);
   ctr.done(done);
 
+
+  tick();
+  start = 1;
+  tick();
+  start = 0;
   while (!ctr.done) {
-    std::cout << "Running 1 cycle\n";
-    sc_core::sc_start(clock_time);
+    tick();
   }
   // assert(output);
   // sc_core::sc_start(clock_time);

@@ -54,6 +54,8 @@ void AES_CTR::get_next_state()
 
 void AES_CTR::set_state()
 {
+	if (!clock.posedge())
+		return;
 	sreg = snext;
 
 	switch (sreg) {
