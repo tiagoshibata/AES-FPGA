@@ -5,9 +5,9 @@
 
 #define tick() do{  \
   std::cout << "Running 1 cycle\n";  \
-  sc_core::sc_start(clock_time);  \
+  sc_core::sc_start(half_clock_time);  \
   clock = 1;  \
-  sc_core::sc_start(clock_time);  \
+  sc_core::sc_start(half_clock_time);  \
   clock = 0;  \
 }while(0)
 
@@ -27,7 +27,7 @@ int sc_main(int argc, char* argv[])
 {
   std::cout << "Starting simulation: " << sc_core::sc_time_stamp() << "\n";
 
-  sc_core::sc_time clock_time(1, sc_core::sc_time_unit::SC_MS);
+  sc_core::sc_time half_clock_time(0.5, sc_core::sc_time_unit::SC_MS);
   AES_CTR ctr("AES_CTR");
 
   sc_core::sc_signal<bool> clock, start, clear;
@@ -57,13 +57,11 @@ int sc_main(int argc, char* argv[])
     tick();
   }
 
+  std::cout << "Ended simulation: " << sc_core::sc_time_stamp() << "\n";
   for (int i = 0; i < 16; i++) {
     std::cout << "Position " << i << ": expected " << +aes_test_ctr_ct[i] << ", found " << +output[i] << "\n";
     assert(aes_test_ctr_ct[i] == output[i]);
   }
-  // sc_core::sc_start(clock_time);
-  // sc_core::sc_start(clock_time);
 
-  std::cout << "Ended simulation: " << sc_core::sc_time_stamp() << "\n";
   return 0;
 }
