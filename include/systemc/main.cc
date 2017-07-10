@@ -23,6 +23,10 @@ static const unsigned char aes_test_ctr_ct[16] =
     { 0xE4, 0x09, 0x5D, 0x4F, 0xB7, 0xA7, 0xB3, 0x79,
       0x2D, 0x61, 0x75, 0xA3, 0x26, 0x13, 0x11, 0xB8 };
 
+static const unsigned char aes_test_ctr_pt[16] =
+    { 0x53, 0x69, 0x6E, 0x67, 0x6C, 0x65, 0x20, 0x62,
+      0x6C, 0x6F, 0x63, 0x6B, 0x20, 0x6D, 0x73, 0x67 };
+
 int sc_main(int argc, char* argv[])
 {
   std::cout << "Starting simulation: " << sc_core::sc_time_stamp() << "\n";
@@ -39,6 +43,7 @@ int sc_main(int argc, char* argv[])
   for (int i = 0; i < 16; i++) {
     key[i] = aes_test_ctr_key[i];
     nonce_counter[i] = aes_test_ctr_nonce_counter[i];
+    input[i] = aes_test_ctr_pt[i];
   }
 
   ctr.clock(clock);
