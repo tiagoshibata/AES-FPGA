@@ -67,7 +67,9 @@ void AES_RoundKey::get_next_state()
 			snext = aes_rk_st_generate;
 			break;
 		case aes_rk_st_generate:
-            if (round < 10) {
+            // set_state runs up to 9, since it takes 1 cycle for the snext
+            //  update to be seen
+            if (round < 9) {
                 snext = aes_rk_st_generate;
             } else {
 			    snext = aes_rk_st_end;

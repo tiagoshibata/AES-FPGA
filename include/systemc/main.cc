@@ -33,7 +33,6 @@ int sc_main(int argc, char* argv[])
   ctr.output(output);
   ctr.done(done);
 
-
   tick();
   start = 1;
   tick();
