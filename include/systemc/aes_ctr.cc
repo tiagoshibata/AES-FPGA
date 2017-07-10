@@ -33,7 +33,7 @@ void AES_CTR::get_next_state()
             }
         	break;
 		case aes_ctr_st_nc_inc:
-			snext = aes_ctr_st_end;
+			snext = aes_ctr_st_end_wait;
 			break;
 		case aes_ctr_st_end_wait:
 			if (start) {
