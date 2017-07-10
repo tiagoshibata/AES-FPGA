@@ -15,8 +15,8 @@ SC_MODULE(AES_Encrypt)
 {
   sc_core::sc_in<bool> clock, start, clear;
   sc_core::sc_in<uint32_t> rk0, rk1, rk2, rk3;
-  sc_core::sc_in<unsigned char> input[16];
-  sc_core::sc_out<unsigned char> output[16];
+  sc_core::sc_vector<sc_core::sc_in<unsigned char>> input;
+  sc_core::sc_vector<sc_core::sc_out<unsigned char>> output;
   sc_core::sc_out<uint32_t> rk_addr;
   sc_core::sc_out<bool> done;
 
@@ -37,7 +37,7 @@ SC_MODULE(AES_Encrypt)
   void get_next_state();
   void set_state();
 
-  SC_CTOR(AES_Encrypt)
+  SC_CTOR(AES_Encrypt) : input("AES_Encrypt_input", 16), output("AES_Encrypt_output", 16)
   {
     aes_round = 0;
 

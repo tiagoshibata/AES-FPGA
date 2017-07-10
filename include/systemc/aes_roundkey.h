@@ -8,7 +8,7 @@ SC_MODULE(AES_RoundKey)
 {
   sc_core::sc_in<bool> clock, start, clear;
   sc_core::sc_in<uint32_t> rk_addr;
-  sc_core::sc_in<unsigned char> key[16];
+  sc_core::sc_vector<sc_core::sc_in<unsigned char>> key;
   sc_core::sc_out<uint32_t> rk0, rk1, rk2, rk3;
   sc_core::sc_out<bool> done;
 
@@ -18,13 +18,13 @@ SC_MODULE(AES_RoundKey)
 
   // Internal values
   sc_core::sc_signal<uint32_t> rk[44];
-  int round;
+  sc_core::sc_signal<uint32_t> round;
 
   void get_next_state();
   void set_state();
   void read_rk();
 
-  SC_CTOR(AES_RoundKey)
+  SC_CTOR(AES_RoundKey) : key("AES_RoundKey_key", 16)
   {
     round = 0;
 
