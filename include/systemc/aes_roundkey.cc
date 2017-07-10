@@ -64,17 +64,20 @@ void AES_RoundKey::get_next_state()
 			}
 			break;
 		case aes_rk_st_read:
-			snext = aes_rk_st_generate;
+			snext = aes_rk_st_generate_begin;
 			break;
-		case aes_rk_st_generate:
-            // set_state runs up to 9, since it takes 1 cycle for the snext
-            //  update to be seen
-            if (round < 9) {
-                snext = aes_rk_st_generate;
-            } else {
-			    snext = aes_rk_st_end;
-            }
-			break;
+    case aes_rk_st_generate_begin:
+      snext = aes_rk_st_generate_end;
+    	break;
+    case aes_rk_st_generate_end:
+      // set_state runs up to 9, since it takes 1 cycle for the snext
+      //  update to be seen
+      if (round < 9) {
+        snext = aes_rk_st_generate_begin;
+      } else {
+  		  snext = aes_rk_st_end;
+      }
+  		break;
 		case aes_rk_st_end:
 			snext = aes_rk_st_wait;
 			break;
@@ -97,17 +100,19 @@ void AES_RoundKey::set_state()
 			GET_UINT32_LE(rk[2], key, 8);
 			GET_UINT32_LE(rk[3], key, 12);
 			break;
-		case aes_rk_st_generate:
+		case aes_rk_st_generate_begin:
 			rk[4 + (round << 2)]  = rk[0 + (round << 2)] ^ RCON[round] ^
 			( (uint32_t) FSb[ ( rk[3 + (round << 2)] >>  8 ) & 0xFF ]       ) ^
 			( (uint32_t) FSb[ ( rk[3 + (round << 2)] >> 16 ) & 0xFF ] <<  8 ) ^
 			( (uint32_t) FSb[ ( rk[3 + (round << 2)] >> 24 ) & 0xFF ] << 16 ) ^
 			( (uint32_t) FSb[ ( rk[3 + (round << 2)]       ) & 0xFF ] << 24 );
-			rk[5 + (round << 2)]  = rk[1 + (round << 2)] ^ rk[4 + (round << 2)];
-			rk[6 + (round << 2)]  = rk[2 + (round << 2)] ^ rk[5 + (round << 2)];
-			rk[7 + (round << 2)]  = rk[3 + (round << 2)] ^ rk[6 + (round << 2)];
-			round = round + 1;
 			break;
+    case aes_rk_st_generate_end:
+  		rk[5 + (round << 2)]  = rk[1 + (round << 2)] ^ rk[4 + (round << 2)];
+  		rk[6 + (round << 2)]  = rk[1 + (round << 2)] ^ rk[2 + (round << 2)] ^ rk[4 + (round << 2)];
+  		rk[7 + (round << 2)]  = rk[1 + (round << 2)] ^ rk[2 + (round << 2)] ^ rk[3 + (round << 2)] ^ rk[4 + (round << 2)];
+  		round = round + 1;
+  		break;
 		case aes_rk_st_end:
 		    done = 1;
 		    break;

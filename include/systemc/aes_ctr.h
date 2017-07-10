@@ -37,8 +37,8 @@ SC_MODULE(AES_CTR)
   void get_next_state();
   void set_state();
 
-  SC_CTOR(AES_CTR) : input("AES_CTR_input", 16), output("AES_CTR_output", 16),
-      nonce_counter("AES_CTR_nonce_counter", 16), key("AES_CTR_key", 16),
+  SC_CTOR(AES_CTR) : input("AES_CTR_input", 16), nonce_counter("AES_CTR_nonce_counter", 16), 
+      key("AES_CTR_key", 16), output("AES_CTR_output", 16),
       cipher("AES_CTR_cipher", 16), curr_nc("AES_CTR_curr_nc", 16)
   {
     roundkey = new AES_RoundKey("roundkey");

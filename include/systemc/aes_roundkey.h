@@ -1,7 +1,7 @@
 #include <systemc>
 
 enum aes_rk_state {
-  aes_rk_st_wait, aes_rk_st_read, aes_rk_st_generate, aes_rk_st_end
+  aes_rk_st_wait, aes_rk_st_read, aes_rk_st_generate_begin, aes_rk_st_generate_end, aes_rk_st_end
 };
 
 SC_MODULE(AES_RoundKey)
