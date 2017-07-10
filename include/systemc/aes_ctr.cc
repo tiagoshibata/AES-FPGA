@@ -57,7 +57,7 @@ void AES_CTR::set_state()
 	if (!clock.posedge())
 		return;
 	sreg = snext;
-
+	std::cout << "CTR state: " << sreg << "\n";
 	switch (sreg) {
 		case aes_ctr_st_wait:
             done = 0;
