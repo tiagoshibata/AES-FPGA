@@ -54,7 +54,7 @@ static const uint32_t FSb[256] =
 void AES_RoundKey::get_next_state()
 {
 	if (clear) {
-		sreg = aes_rk_st_wait;
+		snext = aes_rk_st_wait;
 	} else switch (sreg) {
 		case aes_rk_st_wait:
 			if (start) {

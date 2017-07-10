@@ -3,7 +3,7 @@
 void AES_CTR::get_next_state()
 {
 	if (clear) {
-		sreg = aes_ctr_st_wait;
+		snext = aes_ctr_st_wait;
 	} else switch (sreg) {
 		case aes_ctr_st_wait:
 			if (start) {

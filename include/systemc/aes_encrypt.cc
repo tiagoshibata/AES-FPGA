@@ -18,7 +18,7 @@
 void AES_Encrypt::get_next_state()
 {
 	if (clear) {
-		sreg = aes_enc_st_wait;
+		snext = aes_enc_st_wait;
 	} else switch (sreg) {
 		case aes_enc_st_wait:
 			if (start) {

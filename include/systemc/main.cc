@@ -50,6 +50,11 @@ int sc_main(int argc, char* argv[])
   ctr.output(output);
   ctr.done(done);
 
+  start = 0;
+  clear = 1;
+  tick();
+  clear = 0;
+  tick();
   start = 1;
   tick();
   start = 0;
