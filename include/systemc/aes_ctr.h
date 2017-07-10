@@ -4,7 +4,7 @@
 #include "aes_nonce_counter.h"
 
 enum aes_ctr_state {
-  aes_ctr_st_wait, aes_ctr_st_read, aes_ctr_st_rk_start, aes_ctr_st_rk_wait, aes_ctr_st_enc_start, aes_ctr_st_enc_wait, aes_ctr_st_nc_inc, aes_ctr_st_end_wait, aes_ctr_st_end
+  aes_ctr_st_wait, aes_ctr_st_rk_start, aes_ctr_st_rk_wait, aes_ctr_st_enc_start, aes_ctr_st_enc_wait, aes_ctr_st_nc_inc, aes_ctr_st_end_wait, aes_ctr_st_end
 };
 
 SC_MODULE(AES_CTR)
