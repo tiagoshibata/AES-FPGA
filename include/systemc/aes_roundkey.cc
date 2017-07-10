@@ -104,7 +104,7 @@ void AES_RoundKey::set_state()
 			rk[5 + (round << 2)]  = rk[1 + (round << 2)] ^ rk[4 + (round << 2)];
 			rk[6 + (round << 2)]  = rk[2 + (round << 2)] ^ rk[5 + (round << 2)];
 			rk[7 + (round << 2)]  = rk[3 + (round << 2)] ^ rk[6 + (round << 2)];
-			round++;
+			round = round + 1;
 			break;
 		case aes_rk_st_end:
 		    done = 1;
