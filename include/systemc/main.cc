@@ -13,7 +13,7 @@ int sc_main(int argc, char* argv[])
   sc_core::sc_signal<bool> clock, start, clear;
   sc_core::sc_vector<sc_core::sc_signal<unsigned char>> input("AES_input", 16),
       nonce_counter("AES_nonce_counter", 16), key("AES_key", 16);
-  sc_core::sc_vector<sc_core::sc_signal<unsigned char>> output;
+  sc_core::sc_vector<sc_core::sc_signal<unsigned char>> output("AES_output", 16);
   sc_core::sc_signal<bool> done;
 
   ctr.clock(clock);
@@ -29,6 +29,7 @@ int sc_main(int argc, char* argv[])
     std::cout << "Running 1 cycle\n";
     sc_core::sc_start(clock_time);
   }
+  // assert(output);
   // sc_core::sc_start(clock_time);
   // sc_core::sc_start(clock_time);
 
