@@ -1,6 +1,7 @@
 #include <systemc>
+#include <stdio.h>
 
-#define FT \
+#define FTdef \
 \
     V(A5,63,63,C6), V(84,7C,7C,F8), V(99,77,77,EE), V(8D,7B,7B,F6), \
     V(0D,F2,F2,FF), V(BD,6B,6B,D6), V(B1,6F,6F,DE), V(54,C5,C5,91), \
@@ -67,54 +68,64 @@
     V(C3,41,41,82), V(B0,99,99,29), V(77,2D,2D,5A), V(11,0F,0F,1E), \
     V(CB,B0,B0,7B), V(FC,54,54,A8), V(D6,BB,BB,6D), V(3A,16,16,2C)
 
-#define V(a,b,c,d) 0x##a##b##c##d
-static const uint32_t FT0[256] = { FT };
-#undef V
-
-#define V(a,b,c,d) 0x##b##c##d##a
-static const uint32_t FT1[256] = { FT };
-#undef V
-
-#define V(a,b,c,d) 0x##c##d##a##b
-static const uint32_t FT2[256] = { FT };
-#undef V
-
-#define V(a,b,c,d) 0x##d##a##b##c
-static const uint32_t FT3[256] = { FT };
-#undef V
-
-#undef FT
+#define FT0(a) ((FT[4*(a)]   << 24) \
+              | (FT[4*(a)+1] << 16) \
+              | (FT[4*(a)+2] << 8)  \
+              |  FT[4*(a)+3])
+#define FT1(a) ((FT[4*(a)+1] << 24) \
+              | (FT[4*(a)+2] << 16) \
+              | (FT[4*(a)+3] << 8)  \
+              |  FT[4*(a)])
+#define FT2(a) ((FT[4*(a)+2] << 24) \
+              | (FT[4*(a)+3] << 16) \
+              | (FT[4*(a)]   << 8)  \
+              |  FT[4*(a)+1])
+#define FT3(a) ((FT[4*(a)+3] << 24) \
+              | (FT[4*(a)]   << 16) \
+              | (FT[4*(a)+1] << 8)  \
+              |  FT[4*(a)+2])
 
 SC_MODULE(AES_FROUND)
 {
   sc_core::sc_in<uint32_t> y0, y1, y2, y3, rk0, rk1, rk2, rk3;
   sc_core::sc_out<uint32_t> x0, x1, x2, x3;
 
+  // Internal values
+  sc_core::sc_signal<uint8_t> FT[1024];
+
   void do_fround()
   {
-    x0.write(rk0.read() ^ FT0[ ( y0.read()       ) & 0xFF ] ^
-                          FT1[ ( y1.read() >>  8 ) & 0xFF ] ^
-                          FT2[ ( y2.read() >> 16 ) & 0xFF ] ^
-                          FT3[ ( y3.read() >> 24 ) & 0xFF ]);
+    x0.write(rk0.read() ^ FT0( ( y0.read()       ) & 0xFF ) ^
+                          FT1( ( y1.read() >>  8 ) & 0xFF ) ^
+                          FT2( ( y2.read() >> 16 ) & 0xFF ) ^
+                          FT3( ( y3.read() >> 24 ) & 0xFF ));
 
-    x1.write(rk1.read() ^ FT0[ ( y1.read()       ) & 0xFF ] ^
-                          FT1[ ( y2.read() >>  8 ) & 0xFF ] ^
-                          FT2[ ( y3.read() >> 16 ) & 0xFF ] ^
-                          FT3[ ( y0.read() >> 24 ) & 0xFF ]);
+    x1.write(rk1.read() ^ FT0( ( y1.read()       ) & 0xFF ) ^
+                          FT1( ( y2.read() >>  8 ) & 0xFF ) ^
+                          FT2( ( y3.read() >> 16 ) & 0xFF ) ^
+                          FT3( ( y0.read() >> 24 ) & 0xFF ));
 
-    x2.write(rk2.read() ^ FT0[ ( y2.read()       ) & 0xFF ] ^
-                          FT1[ ( y3.read() >>  8 ) & 0xFF ] ^
-                          FT2[ ( y0.read() >> 16 ) & 0xFF ] ^
-                          FT3[ ( y1.read() >> 24 ) & 0xFF ]);
+    x2.write(rk2.read() ^ FT0( ( y2.read()       ) & 0xFF ) ^
+                          FT1( ( y3.read() >>  8 ) & 0xFF ) ^
+                          FT2( ( y0.read() >> 16 ) & 0xFF ) ^
+                          FT3( ( y1.read() >> 24 ) & 0xFF ));
 
-    x3.write(rk3.read() ^ FT0[ ( y3.read()       ) & 0xFF ] ^
-                          FT1[ ( y0.read() >>  8 ) & 0xFF ] ^
-                          FT2[ ( y1.read() >> 16 ) & 0xFF ] ^
-                          FT3[ ( y2.read() >> 24 ) & 0xFF ]);
+    x3.write(rk3.read() ^ FT0( ( y3.read()       ) & 0xFF ) ^
+                          FT1( ( y0.read() >>  8 ) & 0xFF ) ^
+                          FT2( ( y1.read() >> 16 ) & 0xFF ) ^
+                          FT3( ( y2.read() >> 24 ) & 0xFF ));
   }
 
   SC_CTOR(AES_FROUND)
   {
+    // Initialize RAM
+    #define V(a,b,c,d) 0x##a, 0x##b, 0x##c, 0x##d
+    uint8_t FTinit[1024] = { FTdef };
+    #undef V
+    for (int i = 0; i < 1024; i++) {
+        FT[i] = FTinit[i];
+    }
+
     SC_METHOD(do_fround);
     sensitive << y0 << y1 << y2 << y3 << rk0 << rk1 << rk2 << rk3;
   }
