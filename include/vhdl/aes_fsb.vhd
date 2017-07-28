@@ -13,7 +13,7 @@ architecture arch of AES_FSb is
 
 -- ROM
 type fsb_type is ARRAY(0 to 255) of STD_LOGIC_VECTOR(7 downto 0);
-signal fsb : fsb_type := (
+constant fsb : fsb_type := (
 	0 => X"63", 1 => X"7C", 2 => X"77", 3 => X"7B", 4 => X"F2", 5 => X"6B", 6 => X"6F", 7 => X"C5",
 	8 => X"30", 9 => X"01", 10 => X"67", 11 => X"2B", 12 => X"FE", 13 => X"D7", 14 => X"AB", 15 => X"76",
 	16 => X"CA", 17 => X"82", 18 => X"C9", 19 => X"7D", 20 => X"FA", 21 => X"59", 22 => X"47", 23 => X"F0",
@@ -50,7 +50,7 @@ signal fsb : fsb_type := (
 
 begin
 
-process (fsb, y0, y1, y2, y3, rk0, rk1, rk2, rk3)
+process (y0, y1, y2, y3, rk0, rk1, rk2, rk3)
 begin
 
 	x0 <= unsigned(std_logic_vector(rk0) xor (fsb(to_integer(y3(31 downto 24))) & fsb(to_integer(y2(23 downto 16))) &

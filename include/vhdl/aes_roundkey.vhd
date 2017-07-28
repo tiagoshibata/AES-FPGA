@@ -24,14 +24,14 @@ signal memoria: memoria_type := (others => (others => '0'));
 
 -- RCON ROM
 type rcon_type is ARRAY(0 to 9) of STD_LOGIC_VECTOR(7 downto 0);
-signal rcon : rcon_type := (
+constant rcon : rcon_type := (
 	0 => X"01",	1 => X"02",	2 => X"04",	3 => X"08",	4 => X"10",
 	5 => X"20",	6 => X"40",	7 => X"80",	8 => X"1B",	9 => X"36"
 );
 
 -- FSb ROM
 type fsb_type is ARRAY(0 to 255) of STD_LOGIC_VECTOR(7 downto 0);
-signal fsb : fsb_type := (
+constant fsb : fsb_type := (
 	0 => X"63", 1 => X"7C", 2 => X"77", 3 => X"7B", 4 => X"F2", 5 => X"6B", 6 => X"6F", 7 => X"C5",
 	8 => X"30", 9 => X"01", 10 => X"67", 11 => X"2B", 12 => X"FE", 13 => X"D7", 14 => X"AB", 15 => X"76",
 	16 => X"CA", 17 => X"82", 18 => X"C9", 19 => X"7D", 20 => X"FA", 21 => X"59", 22 => X"47", 23 => X"F0",
