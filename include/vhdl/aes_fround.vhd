@@ -82,28 +82,28 @@ constant ft : ft_type := (
 
 begin
 
-process (ft, y0, y1, y2, y3, rk0, rk1, rk2, rk3)
+process (y0, y1, y2, y3, rk0, rk1, rk2, rk3)
 begin
 
-	x0 <= unsigned(std_logic_vector(rk0) xor ((ft(to_integer(y0( 7 downto  0) & "00")    ) & ft(to_integer(y0( 7 downto  0) & "00") + 1) & ft(to_integer(y0( 7 downto  0) & "00") + 2) & ft(to_integer(y0( 7 downto  0) & "00") + 3))) xor
-	                                         ((ft(to_integer(y1(15 downto  8) & "00") + 1) & ft(to_integer(y1(15 downto  8) & "00") + 2) & ft(to_integer(y1(15 downto  8) & "00") + 3) & ft(to_integer(y1(15 downto  8) & "00")    ))) xor
-	                                         ((ft(to_integer(y2(23 downto 16) & "00") + 2) & ft(to_integer(y2(23 downto 16) & "00") + 3) & ft(to_integer(y2(23 downto 16) & "00")    ) & ft(to_integer(y2(23 downto 16) & "00") + 1))) xor
-	                                         ((ft(to_integer(y3(31 downto 24) & "00") + 3) & ft(to_integer(y3(31 downto 24) & "00")    ) & ft(to_integer(y3(31 downto 24) & "00") + 1) & ft(to_integer(y3(31 downto 24) & "00") + 2))));
+	x0 <= unsigned(std_logic_vector(rk0) xor ((ft(to_integer(y0( 7 downto  0) & "00")) & ft(to_integer(y0( 7 downto  0) & "01")) & ft(to_integer(y0( 7 downto  0) & "10")) & ft(to_integer(y0( 7 downto  0) & "11")))) xor
+	                                         ((ft(to_integer(y1(15 downto  8) & "01")) & ft(to_integer(y1(15 downto  8) & "10")) & ft(to_integer(y1(15 downto  8) & "11")) & ft(to_integer(y1(15 downto  8) & "00")))) xor
+	                                         ((ft(to_integer(y2(23 downto 16) & "10")) & ft(to_integer(y2(23 downto 16) & "11")) & ft(to_integer(y2(23 downto 16) & "00")) & ft(to_integer(y2(23 downto 16) & "01")))) xor
+	                                         ((ft(to_integer(y3(31 downto 24) & "11")) & ft(to_integer(y3(31 downto 24) & "00")) & ft(to_integer(y3(31 downto 24) & "01")) & ft(to_integer(y3(31 downto 24) & "10")))));
 
-	x1 <= unsigned(std_logic_vector(rk1) xor ((ft(to_integer(y1( 7 downto  0) & "00")    ) & ft(to_integer(y1( 7 downto  0) & "00") + 1) & ft(to_integer(y1( 7 downto  0) & "00") + 2) & ft(to_integer(y1( 7 downto  0) & "00") + 3))) xor
-	                                         ((ft(to_integer(y2(15 downto  8) & "00") + 1) & ft(to_integer(y2(15 downto  8) & "00") + 2) & ft(to_integer(y2(15 downto  8) & "00") + 3) & ft(to_integer(y2(15 downto  8) & "00")    ))) xor
-	                                         ((ft(to_integer(y3(23 downto 16) & "00") + 2) & ft(to_integer(y3(23 downto 16) & "00") + 3) & ft(to_integer(y3(23 downto 16) & "00")    ) & ft(to_integer(y3(23 downto 16) & "00") + 1))) xor
-	                                         ((ft(to_integer(y0(31 downto 24) & "00") + 3) & ft(to_integer(y0(31 downto 24) & "00")    ) & ft(to_integer(y0(31 downto 24) & "00") + 1) & ft(to_integer(y0(31 downto 24) & "00") + 2))));
+	x1 <= unsigned(std_logic_vector(rk1) xor ((ft(to_integer(y1( 7 downto  0) & "00")) & ft(to_integer(y1( 7 downto  0) & "01")) & ft(to_integer(y1( 7 downto  0) & "10")) & ft(to_integer(y1( 7 downto  0) & "11")))) xor
+	                                         ((ft(to_integer(y2(15 downto  8) & "01")) & ft(to_integer(y2(15 downto  8) & "10")) & ft(to_integer(y2(15 downto  8) & "11")) & ft(to_integer(y2(15 downto  8) & "00")))) xor
+	                                         ((ft(to_integer(y3(23 downto 16) & "10")) & ft(to_integer(y3(23 downto 16) & "11")) & ft(to_integer(y3(23 downto 16) & "00")) & ft(to_integer(y3(23 downto 16) & "01")))) xor
+	                                         ((ft(to_integer(y0(31 downto 24) & "11")) & ft(to_integer(y0(31 downto 24) & "00")) & ft(to_integer(y0(31 downto 24) & "01")) & ft(to_integer(y0(31 downto 24) & "10")))));
 
-	x2 <= unsigned(std_logic_vector(rk2) xor ((ft(to_integer(y2( 7 downto  0) & "00")    ) & ft(to_integer(y2( 7 downto  0) & "00") + 1) & ft(to_integer(y2( 7 downto  0) & "00") + 2) & ft(to_integer(y2( 7 downto  0) & "00") + 3))) xor
-	                                         ((ft(to_integer(y3(15 downto  8) & "00") + 1) & ft(to_integer(y3(15 downto  8) & "00") + 2) & ft(to_integer(y3(15 downto  8) & "00") + 3) & ft(to_integer(y3(15 downto  8) & "00")    ))) xor
-	                                         ((ft(to_integer(y0(23 downto 16) & "00") + 2) & ft(to_integer(y0(23 downto 16) & "00") + 3) & ft(to_integer(y0(23 downto 16) & "00")    ) & ft(to_integer(y0(23 downto 16) & "00") + 1))) xor
-	                                         ((ft(to_integer(y1(31 downto 24) & "00") + 3) & ft(to_integer(y1(31 downto 24) & "00")    ) & ft(to_integer(y1(31 downto 24) & "00") + 1) & ft(to_integer(y1(31 downto 24) & "00") + 2))));
+	x2 <= unsigned(std_logic_vector(rk2) xor ((ft(to_integer(y2( 7 downto  0) & "00")) & ft(to_integer(y2( 7 downto  0) & "01")) & ft(to_integer(y2( 7 downto  0) & "10")) & ft(to_integer(y2( 7 downto  0) & "11")))) xor
+	                                         ((ft(to_integer(y3(15 downto  8) & "01")) & ft(to_integer(y3(15 downto  8) & "10")) & ft(to_integer(y3(15 downto  8) & "11")) & ft(to_integer(y3(15 downto  8) & "00")))) xor
+	                                         ((ft(to_integer(y0(23 downto 16) & "10")) & ft(to_integer(y0(23 downto 16) & "11")) & ft(to_integer(y0(23 downto 16) & "00")) & ft(to_integer(y0(23 downto 16) & "01")))) xor
+	                                         ((ft(to_integer(y1(31 downto 24) & "11")) & ft(to_integer(y1(31 downto 24) & "00")) & ft(to_integer(y1(31 downto 24) & "01")) & ft(to_integer(y1(31 downto 24) & "10")))));
 
-	x3 <= unsigned(std_logic_vector(rk3) xor ((ft(to_integer(y3( 7 downto  0) & "00")    ) & ft(to_integer(y3( 7 downto  0) & "00") + 1) & ft(to_integer(y3( 7 downto  0) & "00") + 2) & ft(to_integer(y3( 7 downto  0) & "00") + 3))) xor
-	                                         ((ft(to_integer(y0(15 downto  8) & "00") + 1) & ft(to_integer(y0(15 downto  8) & "00") + 2) & ft(to_integer(y0(15 downto  8) & "00") + 3) & ft(to_integer(y0(15 downto  8) & "00")    ))) xor
-	                                         ((ft(to_integer(y1(23 downto 16) & "00") + 2) & ft(to_integer(y1(23 downto 16) & "00") + 3) & ft(to_integer(y1(23 downto 16) & "00")    ) & ft(to_integer(y1(23 downto 16) & "00") + 1))) xor
-	                                         ((ft(to_integer(y2(31 downto 24) & "00") + 3) & ft(to_integer(y2(31 downto 24) & "00")    ) & ft(to_integer(y2(31 downto 24) & "00") + 1) & ft(to_integer(y2(31 downto 24) & "00") + 2))));
+	x3 <= unsigned(std_logic_vector(rk3) xor ((ft(to_integer(y3( 7 downto  0) & "00")) & ft(to_integer(y3( 7 downto  0) & "01")) & ft(to_integer(y3( 7 downto  0) & "10")) & ft(to_integer(y3( 7 downto  0) & "11")))) xor
+	                                         ((ft(to_integer(y0(15 downto  8) & "01")) & ft(to_integer(y0(15 downto  8) & "10")) & ft(to_integer(y0(15 downto  8) & "11")) & ft(to_integer(y0(15 downto  8) & "00")))) xor
+	                                         ((ft(to_integer(y1(23 downto 16) & "10")) & ft(to_integer(y1(23 downto 16) & "11")) & ft(to_integer(y1(23 downto 16) & "00")) & ft(to_integer(y1(23 downto 16) & "01")))) xor
+	                                         ((ft(to_integer(y2(31 downto 24) & "11")) & ft(to_integer(y2(31 downto 24) & "00")) & ft(to_integer(y2(31 downto 24) & "01")) & ft(to_integer(y2(31 downto 24) & "10")))));
 
 end process;
 

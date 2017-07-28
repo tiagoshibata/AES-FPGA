@@ -48,7 +48,7 @@ end component;
 
 begin
 
-fround0: AES_FSb port map (
+fround0: AES_FROUND port map (
 	froundin0, froundin1, froundin2, froundin3, rk0, rk1, rk2, rk3,
 	froundout0, froundout1, froundout2, froundout3
 );
@@ -80,31 +80,34 @@ begin
 				x1 <= x1 xor rk1;
 				x2 <= x2 xor rk2;
 				x3 <= x3 xor rk3;
-				Irk_addr <= Irk_addr + 4;
+
 			--AES_FROUND( y0, y1, y2, y3, x0, x1, x2, x3 );
 			when aes_enc_st_round_odd_in =>
-				froundin0 <= x0; froundin1 <= x1; froundin2 <= x2; froundin3 <= x3;
-			when aes_enc_st_round_last_in =>
+				Irk_addr <= Irk_addr + 4;
 				froundin0 <= x0; froundin1 <= x1; froundin2 <= x2; froundin3 <= x3;
 			when aes_enc_st_round_odd_out =>
 				y0 <= froundout0; y1 <= froundout1; y2 <= froundout2; y3 <= froundout3;
+			when aes_enc_st_round_last_in =>
 				Irk_addr <= Irk_addr + 4;
+				froundin0 <= x0; froundin1 <= x1; froundin2 <= x2; froundin3 <= x3;
 			when aes_enc_st_round_last_out =>
 				y0 <= froundout0; y1 <= froundout1; y2 <= froundout2; y3 <= froundout3;
-				Irk_addr <= Irk_addr + 4;
+
 			--AES_FROUND( x0, x1, x2, x3, y0, y1, y2, y3 );
 			when aes_enc_st_round_even_in =>
+				Irk_addr <= Irk_addr + 4;
 				froundin0 <= y0; froundin1 <= y1; froundin2 <= y2; froundin3 <= y3;
 			when aes_enc_st_round_even_out =>
 				x0 <= froundout0; x1 <= froundout1; x2 <= froundout2; x3 <= froundout3;
-				Irk_addr <= Irk_addr + 4;
 				aes_round <= aes_round - 1;
+
 			--AES_FSb( x0, x1, x2, x3, y0, y1, y2, y3 );
 			when aes_enc_st_subbytes_in =>
+				Irk_addr <= Irk_addr + 4;
 				fsbin0 <= y0; fsbin1 <= y1; fsbin2 <= y2; fsbin3 <= y3;
 			when aes_enc_st_subbytes_out =>
 				x0 <= fsbout0; x1 <= fsbout1; x2 <= fsbout2; x3 <= fsbout3;
-				Irk_addr <= Irk_addr + 4;
+
 			when aes_enc_st_end =>
 				output <= std_logic_vector(x0( 7 downto  0) & x0(15 downto  8) & x0(23 downto 16) & x0(31 downto 24) &
 				                           x1( 7 downto  0) & x1(15 downto  8) & x1(23 downto 16) & x1(31 downto 24) &
