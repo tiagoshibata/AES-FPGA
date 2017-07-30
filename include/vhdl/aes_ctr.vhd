@@ -3,12 +3,12 @@ use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 
 entity AES_CTR is
-	port (
-		clock, start, clear: in STD_LOGIC;
-		input, nonce_counter, key: in STD_LOGIC_VECTOR(127 downto 0);
-		output: out STD_LOGIC_VECTOR(127 downto 0);
-        done: out STD_LOGIC
-	);
+		port (
+			clock, start, clear: in STD_LOGIC;
+			input, nonce_counter, key: in STD_LOGIC_VECTOR(127 downto 0);
+			output: out STD_LOGIC_VECTOR(127 downto 0);
+	        done: out STD_LOGIC
+		);
 end AES_CTR;
 
 architecture arch of AES_CTR is
@@ -105,6 +105,7 @@ begin
 				output <= input xor cipher;
 				inc_nc <= '1';
 			when aes_ctr_st_end_wait =>
+				inc_nc <= '0';
 				done <= '1';
 			when aes_ctr_st_end =>
 				done <= '1';
