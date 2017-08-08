@@ -1190,23 +1190,22 @@ begin
 
 	-- Add user logic here
 
-    pt <= slv_reg15 & slv_reg14 & slv_reg13 & slv_reg12 & slv_reg11 & slv_reg10 & slv_reg9 & slv_reg8 & slv_reg7 & slv_reg6 & slv_reg5 & slv_reg4 & slv_reg3 & slv_reg2 & slv_reg1 & slv_reg0;
-    nonce_counter <= slv_reg31 & slv_reg30 & slv_reg29 & slv_reg28 & slv_reg27 & slv_reg26 & slv_reg25 & slv_reg24 & slv_reg23 & slv_reg22 & slv_reg21 & slv_reg20 & slv_reg19 & slv_reg18 & slv_reg17 & slv_reg16;
-    key <= slv_reg47 & slv_reg46 & slv_reg45 & slv_reg44 & slv_reg43 & slv_reg42 & slv_reg41 & slv_reg40 & slv_reg39 & slv_reg38 & slv_reg37 & slv_reg36 & slv_reg35 & slv_reg34 & slv_reg33 & slv_reg32;
-    ct <= slv_reg63 & slv_reg62 & slv_reg61 & slv_reg60 & slv_reg59 & slv_reg58 & slv_reg57 & slv_reg56 & slv_reg55 & slv_reg54 & slv_reg53 & slv_reg52 & slv_reg51 & slv_reg50 & slv_reg49 & slv_reg4;
+	pt <= slv_reg3 & slv_reg2 & slv_reg1 & slv_reg0;
+        nonce_counter <= slv_reg7 & slv_reg6 & slv_reg5 & slv_reg4;
+        key <= slv_reg11 & slv_reg10 & slv_reg9 & slv_reg8;
+        ct <= slv_reg15 & slv_reg14 & slv_reg13 & slv_reg12;
 
-    AES_CTR_impl : AES_CTR
-    port map (
-        clock => S_AXI_ACLK,
-        clear => slv_reg64(0),
-        start => slv_reg64(1),
-        done => slv_reg64(2),
-        pt => pt,
-        nonce_counter => nonce_counter,
-        key => key,
-        ct => ct
-    );
-
+        AES_CTR_impl : AES_CTR
+        port map (
+            clock => S_AXI_ACLK,
+            clear => slv_reg16(0),
+            start => slv_reg16(1),
+            done => slv_reg16(2),
+            pt => pt,
+            nonce_counter => nonce_counter,
+            key => key,
+            ct => ct
+        );
 
 	-- User logic ends
 
