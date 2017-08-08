@@ -884,10 +884,10 @@ begin
 	            slv_reg9 <= slv_reg9;
 	            slv_reg10 <= slv_reg10;
 	            slv_reg11 <= slv_reg11;
-	            slv_reg12 <= slv_reg12;
-	            slv_reg13 <= slv_reg13;
-	            slv_reg14 <= slv_reg14;
-	            slv_reg15 <= slv_reg15;
+	            -- slv_reg12 <= slv_reg12;
+	            -- slv_reg13 <= slv_reg13;
+	            -- slv_reg14 <= slv_reg14;
+	            -- slv_reg15 <= slv_reg15;
 	            slv_reg16 <= slv_reg16;
 	            slv_reg17 <= slv_reg17;
 	            slv_reg18 <= slv_reg18;
@@ -1189,7 +1189,10 @@ begin
     pt <= slv_reg3 & slv_reg2 & slv_reg1 & slv_reg0;
     nonce_counter <= slv_reg7 & slv_reg6 & slv_reg5 & slv_reg4;
     key <= slv_reg11 & slv_reg10 & slv_reg9 & slv_reg8;
-    ct <= slv_reg15 & slv_reg14 & slv_reg13 & slv_reg12;
+    slv_reg15 <= ct(127 downto 96);
+    slv_reg14 <= ct(95 downto 64);
+    slv_reg13 <= ct(63 downto 32);
+    slv_reg12 <= ct(31 downto 0);
 
     AES_CTR_impl : AES_CTR
     port map (
