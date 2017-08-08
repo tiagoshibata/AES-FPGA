@@ -89,7 +89,6 @@ begin
 
 			when aes_ctr_st_wait =>
 				done <= '0';
-				ct <= (others => '0');
 				inc_nc <= '0';
 				start_rk <= '0';
 				start_enc <= '0';
