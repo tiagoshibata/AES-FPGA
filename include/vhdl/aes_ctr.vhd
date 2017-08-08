@@ -24,7 +24,7 @@ signal sreg, snext: estados;
 -- Internal signals
 signal rk0, rk1, rk2, rk3: UNSIGNED(31 downto 0);
 signal rk_addr: UNSIGNED(5 downto 0);
-signal cipher, curr_nc: STD_LOGIC_VECTOR(127 downto 0);
+signal cipher, curr_nc, ct_buffer: STD_LOGIC_VECTOR(127 downto 0);
 
 -- Modules
 signal start_rk, done_rk: STD_LOGIC;
@@ -80,6 +80,8 @@ nonce_ctr: AES_Nonce_Counter port map (
 	curr_nc
 );
 
+ct <= ct_buffer;
+
 process (clock)
 begin
     if clock'event and clock = '1' then
@@ -101,7 +103,7 @@ begin
 			when aes_ctr_st_enc_wait =>
 				start_enc <= '0';
 			when aes_ctr_st_nc_inc =>
-				ct <= pt xor cipher;
+				ct_buffer <= pt xor cipher;
 				inc_nc <= '1';
 			when aes_ctr_st_end_wait =>
 				inc_nc <= '0';
