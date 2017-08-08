@@ -302,7 +302,7 @@ begin
 	      -- slv_reg13 <= (others => '0');
 	      -- slv_reg14 <= (others => '0');
 	      -- slv_reg15 <= (others => '0');
-	      slv_reg16 <= (others => '0');
+	      -- slv_reg16 <= (others => '0');
 	      slv_reg17 <= (others => '0');
 	      slv_reg18 <= (others => '0');
 	      slv_reg19 <= (others => '0');
@@ -482,9 +482,8 @@ begin
 	          when b"0010000" =>
 	            for byte_index in 0 to (C_S_AXI_DATA_WIDTH/8-1) loop
 	              if ( S_AXI_WSTRB(byte_index) = '1' ) then
-	                -- Respective byte enables are asserted as per write strobes
-	                -- slave registor 16
-	                slv_reg16(byte_index*8+7 downto byte_index*8) <= S_AXI_WDATA(byte_index*8+7 downto byte_index*8);
+	                -- Read only register
+	                -- slv_reg16(byte_index*8+7 downto byte_index*8) <= S_AXI_WDATA(byte_index*8+7 downto byte_index*8);
 	              end if;
 	            end loop;
 	          when b"0010001" =>
@@ -888,7 +887,7 @@ begin
 	            -- slv_reg13 <= slv_reg13;
 	            -- slv_reg14 <= slv_reg14;
 	            -- slv_reg15 <= slv_reg15;
-	            slv_reg16 <= slv_reg16;
+	            -- slv_reg16 <= slv_reg16;
 	            slv_reg17 <= slv_reg17;
 	            slv_reg18 <= slv_reg18;
 	            slv_reg19 <= slv_reg19;
