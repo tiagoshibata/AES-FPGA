@@ -1198,8 +1198,8 @@ begin
     AES_CTR_impl : AES_CTR
     port map (
         clock => S_AXI_ACLK,
-        start => slv_reg64(0),
-        clear => slv_reg64(1),
+        clear => slv_reg64(0),
+        start => slv_reg64(1),
         done => slv_reg64(2),
         pt => pt,
         nonce_counter => nonce_counter,
