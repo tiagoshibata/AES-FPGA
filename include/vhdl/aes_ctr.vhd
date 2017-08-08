@@ -5,8 +5,8 @@ use IEEE.numeric_std.all;
 entity AES_CTR is
 		port (
 			clock, start, clear: in STD_LOGIC;
-			input, nonce_counter, key: in STD_LOGIC_VECTOR(127 downto 0);
-			output: out STD_LOGIC_VECTOR(127 downto 0);
+			pt, nonce_counter, key: in STD_LOGIC_VECTOR(127 downto 0);
+			ct: out STD_LOGIC_VECTOR(127 downto 0);
 	        done: out STD_LOGIC
 		);
 end AES_CTR;
@@ -42,8 +42,8 @@ component AES_Encrypt
 	port (
 		clock, start, clear: in STD_LOGIC;
 		rk0, rk1, rk2, rk3: in UNSIGNED(31 downto 0);
-		input: in STD_LOGIC_VECTOR(127 downto 0);
-		output: out STD_LOGIC_VECTOR(127 downto 0);
+		pt: in STD_LOGIC_VECTOR(127 downto 0);
+		ct: out STD_LOGIC_VECTOR(127 downto 0);
         rk_addr: out UNSIGNED(5 downto 0);
         done: out STD_LOGIC
 	);
@@ -89,7 +89,7 @@ begin
 
 			when aes_ctr_st_wait =>
 				done <= '0';
-				output <= (others => '0');
+				ct <= (others => '0');
 				inc_nc <= '0';
 				start_rk <= '0';
 				start_enc <= '0';
@@ -102,7 +102,7 @@ begin
 			when aes_ctr_st_enc_wait =>
 				start_enc <= '0';
 			when aes_ctr_st_nc_inc =>
-				output <= input xor cipher;
+				ct <= pt xor cipher;
 				inc_nc <= '1';
 			when aes_ctr_st_end_wait =>
 				inc_nc <= '0';

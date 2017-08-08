@@ -6,8 +6,8 @@ entity AES_Encrypt is
 	port (
 		clock, start, clear: in STD_LOGIC;
 		rk0, rk1, rk2, rk3: in UNSIGNED(31 downto 0);
-		input: in STD_LOGIC_VECTOR(127 downto 0);
-		output: out STD_LOGIC_VECTOR(127 downto 0);
+		pt: in STD_LOGIC_VECTOR(127 downto 0);
+		ct: out STD_LOGIC_VECTOR(127 downto 0);
         rk_addr: out UNSIGNED(5 downto 0);
         done: out STD_LOGIC
 	);
@@ -71,10 +71,10 @@ begin
 			when aes_enc_st_read =>
 				Irk_addr <= (others => '0'); -- Updates rk0-3
 				aes_round <= "000011"; -- (10 >> 1) - 2
-				x0 <= unsigned(input(103 downto  96) & input(111 downto 104) & input(119 downto 112) & input(127 downto 120));
-                x1 <= unsigned(input( 71 downto  64) & input( 79 downto  72) & input( 87 downto  80) & input( 95 downto  88));
-                x2 <= unsigned(input( 39 downto  32) & input( 47 downto  40) & input( 55 downto  48) & input( 63 downto  56));
-                x3 <= unsigned(input(  7 downto   0) & input( 15 downto   8) & input( 23 downto  16) & input( 31 downto  24));
+				x0 <= unsigned(pt(103 downto  96) & pt(111 downto 104) & pt(119 downto 112) & pt(127 downto 120));
+                x1 <= unsigned(pt( 71 downto  64) & pt( 79 downto  72) & pt( 87 downto  80) & pt( 95 downto  88));
+                x2 <= unsigned(pt( 39 downto  32) & pt( 47 downto  40) & pt( 55 downto  48) & pt( 63 downto  56));
+                x3 <= unsigned(pt(  7 downto   0) & pt( 15 downto   8) & pt( 23 downto  16) & pt( 31 downto  24));
 			when aes_enc_st_addroundkey =>
 				x0 <= x0 xor rk0;
 				x1 <= x1 xor rk1;
@@ -109,7 +109,7 @@ begin
 				x0 <= fsbout0; x1 <= fsbout1; x2 <= fsbout2; x3 <= fsbout3;
 
 			when aes_enc_st_end =>
-				output <= std_logic_vector(x0( 7 downto  0) & x0(15 downto  8) & x0(23 downto 16) & x0(31 downto 24) &
+				ct <= std_logic_vector(x0( 7 downto  0) & x0(15 downto  8) & x0(23 downto 16) & x0(31 downto 24) &
 				                           x1( 7 downto  0) & x1(15 downto  8) & x1(23 downto 16) & x1(31 downto 24) &
 				                           x2( 7 downto  0) & x2(15 downto  8) & x2(23 downto 16) & x2(31 downto 24) &
 				                           x3( 7 downto  0) & x3(15 downto  8) & x3(23 downto 16) & x3(31 downto 24));
