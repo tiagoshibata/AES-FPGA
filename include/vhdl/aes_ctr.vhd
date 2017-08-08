@@ -42,8 +42,8 @@ component AES_Encrypt
 	port (
 		clock, start, clear: in STD_LOGIC;
 		rk0, rk1, rk2, rk3: in UNSIGNED(31 downto 0);
-		pt: in STD_LOGIC_VECTOR(127 downto 0);
-		ct: out STD_LOGIC_VECTOR(127 downto 0);
+		pt_enc: in STD_LOGIC_VECTOR(127 downto 0);
+		ct_enc: out STD_LOGIC_VECTOR(127 downto 0);
         rk_addr: out UNSIGNED(5 downto 0);
         done: out STD_LOGIC
 	);
