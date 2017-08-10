@@ -1,0 +1,158 @@
+21:20:00 INFO  : Registering command handlers for SDK TCF services
+21:20:02 INFO  : Launching XSCT server: xsct -n -interactive /home/tiago/code/AES-FPGA/Project_VHDL/Project_VHDL.sdk/temp_xsdb_launch_script.tcl
+21:20:04 INFO  : XSCT server has started successfully.
+21:20:04 INFO  : Successfully done setting XSCT server connection channel  
+21:20:04 INFO  : Successfully done setting SDK workspace  
+21:20:04 INFO  : Processing command line option -hwspec /home/tiago/code/AES-FPGA/Project_VHDL/Project_VHDL.sdk/Microblaze_wrapper.hdf.
+21:23:17 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+21:23:36 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+21:23:36 INFO  : 'targets -set -filter {jtag_cable_name =~ "Digilent Nexys4DDR 210292746645A" && level==0} -index 0' command is executed.
+21:23:38 INFO  : FPGA configured successfully with bitstream "/home/tiago/code/AES-FPGA/Project_VHDL/Project_VHDL.sdk/Microblaze_wrapper_hw_platform_0/download.bit"
+21:24:36 ERROR : Unexpected error while launching program.
+java.lang.IllegalArgumentException: Path for project must have only one segment.
+	at org.eclipse.core.runtime.Assert.isLegal(Assert.java:63)
+	at org.eclipse.core.internal.resources.WorkspaceRoot.getProject(WorkspaceRoot.java:147)
+	at org.eclipse.cdt.debug.core.CDebugUtils.verifyCProject(CDebugUtils.java:618)
+	at org.eclipse.cdt.debug.core.CDebugUtils.verifyProgramPath(CDebugUtils.java:655)
+	at org.eclipse.cdt.debug.core.CDebugUtils.verifyProgramPath(CDebugUtils.java:707)
+	at com.xilinx.sdk.debug.core.XilinxAppLaunchConfigurationDelegate.runApplication(XilinxAppLaunchConfigurationDelegate.java:578)
+	at com.xilinx.sdk.debug.core.XilinxAppLaunchConfigurationDelegate.launch(XilinxAppLaunchConfigurationDelegate.java:309)
+	at com.xilinx.sdk.debug.ui.XilinxAppLaunchDelegateWrapper.launch(XilinxAppLaunchDelegateWrapper.java:31)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:885)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:739)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1039)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$8.run(DebugUIPlugin.java:1256)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:55)
+21:28:07 INFO  : Processor reset is completed for microblaze_0
+21:28:27 INFO  : Processor reset is completed for microblaze_0
+21:34:07 INFO  : Processor reset is completed for microblaze_0
+21:34:29 INFO  : microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching.
+21:34:32 INFO  : Processor reset is completed for microblaze_0
+21:36:24 INFO  : microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching.
+21:36:26 INFO  : Processor reset is completed for microblaze_0
+21:36:38 INFO  : Processor reset is completed for microblaze_0
+21:38:43 INFO  : Processor reset is completed for microblaze_0
+21:38:54 INFO  : microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching.
+21:38:56 INFO  : Processor reset is completed for microblaze_0
+21:39:14 INFO  : microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching.
+21:39:16 INFO  : Processor reset is completed for microblaze_0
+21:39:48 INFO  : microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching.
+21:39:49 INFO  : Processor reset is completed for microblaze_0
+21:40:18 INFO  : microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching.
+21:40:19 INFO  : Processor reset is completed for microblaze_0
+21:43:34 INFO  : Processor reset is completed for microblaze_0
+21:43:46 INFO  : microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching.
+21:43:49 INFO  : Processor reset is completed for microblaze_0
+21:43:57 INFO  : Processor reset is completed for microblaze_0
+21:45:31 INFO  : Processor reset is completed for microblaze_0
+21:45:47 INFO  : Processor reset is completed for microblaze_0
+21:46:05 INFO  : Processor reset is completed for microblaze_0
+21:47:46 INFO  : Processor reset is completed for microblaze_0
+21:51:07 INFO  : Processor reset is completed for microblaze_0
+21:51:12 INFO  : Processor reset is completed for microblaze_0
+21:51:52 INFO  : Processor reset is completed for microblaze_0
+21:52:26 INFO  : microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching.
+21:52:29 INFO  : Processor reset is completed for microblaze_0
+21:52:36 INFO  : microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching.
+21:52:38 INFO  : Processor reset is completed for microblaze_0
+21:52:44 INFO  : Processor reset is completed for microblaze_0
+21:52:50 INFO  : Processor reset is completed for microblaze_0
+21:53:04 INFO  : Processor reset is completed for microblaze_0
+21:54:03 INFO  : microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching.
+21:54:05 INFO  : Processor reset is completed for microblaze_0
+21:54:48 INFO  : microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching.
+21:54:50 INFO  : Processor reset is completed for microblaze_0
+21:55:40 INFO  : microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching.
+21:55:41 INFO  : Processor reset is completed for microblaze_0
+21:58:26 INFO  : Processor reset is completed for microblaze_0
+21:58:38 INFO  : Processor reset is completed for microblaze_0
+21:58:44 INFO  : Processor reset is completed for microblaze_0
+21:59:41 INFO  : Processor reset is completed for microblaze_0
+22:00:25 INFO  : Processor reset is completed for microblaze_0
+22:00:34 INFO  : microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching.
+22:00:36 INFO  : Processor reset is completed for microblaze_0
+22:01:16 INFO  : Processor reset is completed for microblaze_0
+22:01:47 INFO  : Processor reset is completed for microblaze_0
+22:02:11 INFO  : Processor reset is completed for microblaze_0
+22:02:33 INFO  : Processor reset is completed for microblaze_0
+22:02:46 INFO  : Processor reset is completed for microblaze_0
+22:04:26 INFO  : Processor reset is completed for microblaze_0
+22:04:51 INFO  : Processor reset is completed for microblaze_0
+22:04:56 INFO  : Processor reset is completed for microblaze_0
+22:05:07 INFO  : Processor reset is completed for microblaze_0
+22:05:43 INFO  : microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching.
+22:05:44 INFO  : Processor reset is completed for microblaze_0
+22:07:30 INFO  : microblaze_0 Processor is in use. Please stop existing Run or Debug sessions before launching.
+22:07:31 INFO  : Processor reset is completed for microblaze_0
+22:08:13 INFO  : Processor reset is completed for microblaze_0
+22:08:16 INFO  : Processor reset is completed for microblaze_0
+22:08:31 INFO  : Processor reset is completed for microblaze_0
+22:08:33 INFO  : Processor reset is completed for microblaze_0
+22:08:36 INFO  : Processor reset is completed for microblaze_0
+22:09:07 INFO  : Processor reset is completed for microblaze_0
+22:09:19 INFO  : Processor reset is completed for microblaze_0
+22:10:01 INFO  : Processor reset is completed for microblaze_0
+22:12:41 INFO  : Processor reset is completed for microblaze_0
+22:14:43 INFO  : Processor reset is completed for microblaze_0
+22:14:54 INFO  : Processor reset is completed for microblaze_0
+22:15:45 INFO  : Processor reset is completed for microblaze_0
+22:16:15 INFO  : Processor reset is completed for microblaze_0
+22:16:19 INFO  : Processor reset is completed for microblaze_0
+22:16:23 INFO  : Processor reset is completed for microblaze_0
+22:16:43 INFO  : Processor reset is completed for microblaze_0
+22:16:47 INFO  : Processor reset is completed for microblaze_0
+22:16:56 INFO  : Processor reset is completed for microblaze_0
+22:16:59 INFO  : Processor reset is completed for microblaze_0
+22:17:04 INFO  : Processor reset is completed for microblaze_0
+22:17:07 INFO  : Processor reset is completed for microblaze_0
+22:19:14 INFO  : Processor reset is completed for microblaze_0
+22:19:17 INFO  : Processor reset is completed for microblaze_0
+22:19:20 INFO  : Processor reset is completed for microblaze_0
+22:19:27 INFO  : Processor reset is completed for microblaze_0
+22:42:21 INFO  : Processor reset is completed for microblaze_0
+22:42:44 INFO  : Processor reset is completed for microblaze_0
+22:42:52 INFO  : Processor reset is completed for microblaze_0
+22:43:05 INFO  : Processor reset is completed for microblaze_0
+22:43:27 INFO  : Processor reset is completed for microblaze_0
+22:43:29 INFO  : Processor reset is completed for microblaze_0
+22:43:32 INFO  : Processor reset is completed for microblaze_0
+22:43:41 INFO  : Processor reset is completed for microblaze_0
+22:43:44 INFO  : Processor reset is completed for microblaze_0
+22:43:47 INFO  : Processor reset is completed for microblaze_0
+22:46:03 INFO  : Processor reset is completed for microblaze_0
+22:46:11 INFO  : Processor reset is completed for microblaze_0
+22:46:14 INFO  : Processor reset is completed for microblaze_0
+22:46:17 INFO  : Processor reset is completed for microblaze_0
+22:46:56 INFO  : Processor reset is completed for microblaze_0
+22:47:01 INFO  : Processor reset is completed for microblaze_0
+22:47:04 INFO  : Processor reset is completed for microblaze_0
+22:47:10 INFO  : Processor reset is completed for microblaze_0
+23:43:39 ERROR : Unexpected error while parsing XMD response ￿: com.google.gson.JsonSyntaxException: com.google.gson.stream.MalformedJsonException: invalid number or unquoted string near 
+14:23:50 INFO  : Registering command handlers for SDK TCF services
+14:23:51 INFO  : Launching XSCT server: xsct -n -interactive /home/tiago/code/AES-FPGA/Project_VHDL/Project_VHDL.sdk/temp_xsdb_launch_script.tcl
+14:23:52 INFO  : XSCT server has started successfully.
+14:23:53 INFO  : Successfully done setting XSCT server connection channel  
+14:23:53 INFO  : Successfully done setting SDK workspace  
+14:23:53 INFO  : Processing command line option -hwspec /home/tiago/code/AES-FPGA/Project_VHDL/Project_VHDL.sdk/Microblaze_wrapper.hdf.
+14:23:53 INFO  : Checking for hwspec changes in the project Microblaze_wrapper_hw_platform_0.
+14:24:11 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+14:24:11 INFO  : 'targets -set -filter {jtag_cable_name =~ "Digilent Nexys4DDR 210292746645A" && level==0} -index 0' command is executed.
+14:24:13 INFO  : FPGA configured successfully with bitstream "/home/tiago/code/AES-FPGA/Project_VHDL/Project_VHDL.sdk/Microblaze_wrapper_hw_platform_0/download.bit"
+14:24:25 INFO  : Processor reset is completed for microblaze_0
+14:24:48 INFO  : Processor reset is completed for microblaze_0
+14:25:00 INFO  : Processor reset is completed for microblaze_0
+14:25:13 INFO  : Processor reset is completed for microblaze_0
+14:25:23 INFO  : Processor reset is completed for microblaze_0
+14:27:00 INFO  : Processor reset is completed for microblaze_0
+14:27:10 INFO  : Processor reset is completed for microblaze_0
+16:38:12 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+16:38:37 ERROR : Specified device 'Digilent Nexys4DDR 210292746645A/1-xc7a100t' is not found on the board
+16:39:05 INFO  : Connected to target on host '127.0.0.1' and port '3121'.
+16:39:05 INFO  : 'targets -set -filter {jtag_cable_name =~ "Digilent Nexys4DDR 210292746645A" && level==0} -index 0' command is executed.
+16:39:07 INFO  : FPGA configured successfully with bitstream "/home/tiago/code/AES-FPGA/Project_VHDL/Project_VHDL.sdk/Microblaze_wrapper_hw_platform_0/download.bit"
+16:45:12 INFO  : Processor reset is completed for microblaze_0
+17:25:29 INFO  : Processor reset is completed for microblaze_0
+17:45:07 INFO  : Processor reset is completed for microblaze_0
+17:46:41 INFO  : Processor reset is completed for microblaze_0
+17:47:21 INFO  : Processor reset is completed for microblaze_0
+17:56:42 ERROR : Unexpected error while parsing XMD response ￿: com.google.gson.JsonSyntaxException: com.google.gson.stream.MalformedJsonException: invalid number or unquoted string near 

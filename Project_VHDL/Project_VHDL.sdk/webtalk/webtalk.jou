@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Webtalk v2017.2 (64-bit)
+# SW Build 1909853 on Thu Jun 15 18:39:10 MDT 2017
+# 
+# Start of session at: Tue Aug  8 23:43:38 2017
+# Process ID: 28864
+# Current directory: /home/tiago/code/AES-FPGA/Project_VHDL/Project_VHDL.sdk/webtalk
+# Command line: wbtcv -mode batch -source sdk_webtalk.tcl
+# Log file: /home/tiago/code/AES-FPGA/Project_VHDL/Project_VHDL.sdk/webtalk/webtalk.log
+# Journal file: /home/tiago/code/AES-FPGA/Project_VHDL/Project_VHDL.sdk/webtalk/webtalk.jou
+#-----------------------------------------------------------
+source sdk_webtalk.tcl
